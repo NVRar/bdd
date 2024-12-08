@@ -3,38 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Alumnos</title>
+    <title>Gestión de Alumnos y Actividades</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <div class="container mt-5">
         <h1 class="text-center">Gestión de Alumnos y Actividades</h1>
-        
-        <section id="seccion-alumnos" class="my-5">
-            <h2>Agregar Alumno</h2>
-            <form id="alumno-form" class="row g-3">
-                <div class="col-md-6">
-                    <label for="nombre" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" id="nombre" required>
-                </div>
-                <div class="col-md-6">
-                    <label for="apellido" class="form-label">Apellido</label>
-                    <input type="text" class="form-control" id="apellido" required>
-                </div>
-                <div class="col-md-4">
-                    <label for="edad" class="form-label">Edad</label>
-                    <input type="number" class="form-control" id="edad" required>
-                </div>
-                <div class="col-md-8">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" required>
-                </div>
-                <div class="col-12">
-                    <button type="submit" class="btn btn-primary">Agregar Alumno</button>
-                </div>
-            </form>
-        </section>
+
+        <div class="text-center mb-4">
+            <button class="btn btn-primary me-2" onclick="mostrarModalAgregarAlumno()">Agregar Alumno</button>
+            <button class="btn btn-secondary" onclick="mostrarModalAgregarActividad()">Agregar Actividad</button>
+        </div>
 
         <section id="lista-alumnos" class="my-5">
             <h2>Lista de Alumnos</h2>
@@ -50,45 +29,42 @@
                     </tr>
                 </thead>
                 <tbody id="alumno-list">
+                    <!-- Aca muestra la lista de alumnos (si hay) -->
                 </tbody>
             </table>
         </section>
-        <section id="seccion-actividades" class="my-5">
-            <h2>Agregar Actividad</h2>
-            <form id="actividad-form" class="row g-3">
-                <div class="col-md-6">
-                    <label for="padron-actividad" class="form-label">Padrón del Alumno</label>
-                    <input type="number" class="form-control" id="padron-actividad" required>
+
+        <div class="modal fade" id="modalAgregarAlumno" tabindex="-1" aria-labelledby="modalAgregarAlumnoLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalAgregarAlumnoLabel">Agregar Alumno</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formAgregarAlumno">
+                            <div class="mb-3">
+                                <label for="agregar-nombre" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="agregar-nombre" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="agregar-apellido" class="form-label">Apellido</label>
+                                <input type="text" class="form-control" id="agregar-apellido" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="agregar-edad" class="form-label">Edad</label>
+                                <input type="number" class="form-control" id="agregar-edad" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="agregar-email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="agregar-email" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Agregar Alumno</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <label for="actividad" class="form-label">Actividad</label>
-                    <input type="text" class="form-control" id="actividad" required>
-                </div>
-                <div class="col-md-6">
-                    <label for="fecha" class="form-label">Fecha</label>
-                    <input type="date" class="form-control" id="fecha">
-                </div>
-                <div class="col-12">
-                    <button type="submit" class="btn btn-primary">Agregar Actividad</button>
-                </div>
-            </form>
-        </section>
-        <section id="lista-actividades" class="my-5">
-            <h2>Lista de Actividades</h2>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Padrón</th>
-                        <th>Actividad</th>
-                        <th>Fecha</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody id="actividad-list">
-                </tbody>
-            </table>
-        </section>
+            </div>
+        </div>
 
         <div class="modal fade" id="modalEditarAlumno" tabindex="-1" aria-labelledby="modalEditarAlumnoLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -122,6 +98,34 @@
             </div>
         </div>
 
+        <div class="modal fade" id="modalAgregarActividad" tabindex="-1" aria-labelledby="modalAgregarActividadLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalAgregarActividadLabel">Agregar Actividad</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formAgregarActividad">
+                            <div class="mb-3">
+                                <label for="agregar-padron" class="form-label">Padrón del Alumno</label>
+                                <input type="number" class="form-control" id="agregar-padron" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="agregar-actividad" class="form-label">Actividad</label>
+                                <input type="text" class="form-control" id="agregar-actividad" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="agregar-fecha" class="form-label">Fecha</label>
+                                <input type="date" class="form-control" id="agregar-fecha">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Agregar Actividad</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="modal fade" id="modalEditarActividad" tabindex="-1" aria-labelledby="modalEditarActividadLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -145,6 +149,24 @@
                 </div>
             </div>
         </div>
+
+        <section id="lista-actividades" class="my-5">
+            <h2>Lista de Actividades</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Padrón</th>
+                        <th>Actividad</th>
+                        <th>Fecha</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="actividad-list">
+                    <!-- Aca se ven las actividades (si hay) -->
+                </tbody>
+            </table>
+        </section>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

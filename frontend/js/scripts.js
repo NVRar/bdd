@@ -35,12 +35,17 @@ async function cargarAlumnos() {
     }
 }
 
+function mostrarModalAgregarAlumno() {
+    const modal = new bootstrap.Modal(document.getElementById("modalAgregarAlumno"));
+    modal.show();
+}
+
 async function agregarAlumno(event) {
     event.preventDefault();
-    const nombre = document.getElementById("nombre").value;
-    const apellido = document.getElementById("apellido").value;
-    const edad = document.getElementById("edad").value;
-    const email = document.getElementById("email").value;
+    const nombre = document.getElementById("agregar-nombre").value;
+    const apellido = document.getElementById("agregar-apellido").value;
+    const edad = document.getElementById("agregar-edad").value;
+    const email = document.getElementById("agregar-email").value;
 
     try {
         const response = await fetch(`${BASE_URL}/alumnos`, {
@@ -53,8 +58,10 @@ async function agregarAlumno(event) {
 
         if (!response.ok) throw new Error("No se pudo agregar el alumno");
         alert("Alumno agregado exitosamente");
-        document.getElementById("alumno-form").reset();
+        document.getElementById("formAgregarAlumno").reset();
         cargarAlumnos();
+        const modal = bootstrap.Modal.getInstance(document.getElementById("modalAgregarAlumno"));
+        modal.hide();
     } catch (error) {
         mostrarError(error.message);
     }
@@ -127,7 +134,7 @@ async function verActividades(padron) {
                 <td>${actividad._id}</td>
                 <td>${actividad.padron}</td>
                 <td>${actividad.actividad}</td>
-                <td>${actividad.fecha}</td>
+                <td>${actividad.fecha || "Sin fecha"}</td>
                 <td>
                     <button class="btn btn-warning btn-sm" onclick="mostrarModalEditarActividad('${actividad._id}', ${padron})">Editar</button>
                     <button class="btn btn-danger btn-sm" onclick="eliminarActividad('${actividad._id}', ${padron})">Eliminar</button>
@@ -135,6 +142,37 @@ async function verActividades(padron) {
             `;
             tabla.appendChild(fila);
         });
+    } catch (error) {
+        mostrarError(error.message);
+    }
+}
+
+function mostrarModalAgregarActividad() {
+    const modal = new bootstrap.Modal(document.getElementById("modalAgregarActividad"));
+    modal.show();
+}
+
+async function agregarActividad(event) {
+    event.preventDefault();
+    const actividad = document.getElementById("agregar-actividad").value;
+    const fecha = document.getElementById("agregar-fecha").value || null;
+    const padron = document.getElementById("agregar-padron").value;
+
+    try {
+        const response = await fetch(`${BASE_URL}/alumnos/${padron}/actividades`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ actividad, fecha })
+        });
+
+        if (!response.ok) throw new Error("No se pudo agregar la actividad");
+        alert("Actividad agregada exitosamente");
+        document.getElementById("formAgregarActividad").reset();
+        verActividades(padron);
+        const modal = bootstrap.Modal.getInstance(document.getElementById("modalAgregarActividad"));
+        modal.hide();
     } catch (error) {
         mostrarError(error.message);
     }
@@ -174,30 +212,6 @@ async function actualizarActividad(event) {
     }
 }
 
-async function agregarActividad(event) {
-    event.preventDefault();
-    const actividad = document.getElementById("actividad").value;
-    const fecha = document.getElementById("fecha").value;
-    const padron = document.getElementById("padron-actividad").value;
-
-    try {
-        const response = await fetch(`${BASE_URL}/alumnos/${padron}/actividades`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ actividad, fecha })
-        });
-
-        if (!response.ok) throw new Error("No se pudo agregar la actividad");
-        alert("Actividad agregada exitosamente");
-        document.getElementById("actividad-form").reset();
-        verActividades(padron);
-    } catch (error) {
-        mostrarError(error.message);
-    }
-}
-
 async function eliminarActividad(id, padron) {
     if (!confirm(`Estás seguro de eliminar esta actividad con ID ${id}?`)) return;
 
@@ -216,8 +230,8 @@ async function eliminarActividad(id, padron) {
 
 document.addEventListener("DOMContentLoaded", () => {
     cargarAlumnos();
-    document.getElementById("alumno-form").addEventListener("submit", agregarAlumno);
+    document.getElementById("formAgregarAlumno").addEventListener("submit", agregarAlumno);
     document.getElementById("formEditarAlumno").addEventListener("submit", actualizarAlumno);
-    document.getElementById("actividad-form").addEventListener("submit", agregarActividad);
+    document.getElementById("formAgregarActividad").addEventListener("submit", agregarActividad);
     document.getElementById("formEditarActividad").addEventListener("submit", actualizarActividad);
 });
