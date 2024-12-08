@@ -18,7 +18,7 @@ _Entrar a backend/_
 make iniciar
 ```
 
-_Entrar a frontend/
+_Entrar a frontend/_
 
 ```
 make iniciar
