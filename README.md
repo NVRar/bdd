@@ -3,11 +3,13 @@
 
 ### Para instalar
 
-_Para isntalar todo lo necesario_
+_Para instalar todo lo necesario_
 
 ```
 make preparar
 ```
+
+_Si no como otra opcion dentro de cada directorio de front y backend puede usar make preparar_
 
 ### Para ejecutar
 
