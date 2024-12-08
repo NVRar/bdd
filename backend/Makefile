@@ -18,7 +18,7 @@ preparar:
 	python3 -m venv env
 	@echo "Activando entorno virtual e instalando dependencias de requirements.txt..."
 	. env/bin/activate && pip install --upgrade pip && pip install -r requirements.txt
-	@echo "Preparación completada. Ahora puedes ejecutar 'make iniciar'."
+	@echo "\033[0;32mBackend preparado exitosamente\033[0m"
 
 iniciar:
 	@echo "Activando entorno virtual y ejecutando la aplicación..."
