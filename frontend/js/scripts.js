@@ -137,7 +137,7 @@ async function verActividades(padron) {
                 <td>${actividad.fecha || "Sin fecha"}</td>
                 <td>
                     <button class="btn btn-warning btn-sm" onclick="mostrarModalEditarActividad('${actividad._id}', ${padron})">Editar</button>
-                    <button class="btn btn-danger btn-sm" onclick="eliminarActividad('${actividad._id}', ${padron})">Eliminar</button>
+                    <button class="btn btn-danger btn-sm" onclick="eliminarActividad('${actividad._id}', '${actividad.actividad}', ${padron})">Eliminar</button>
                 </td>
             `;
             tabla.appendChild(fila);
@@ -146,6 +146,7 @@ async function verActividades(padron) {
         mostrarError(error.message);
     }
 }
+
 
 function mostrarModalAgregarActividad() {
     const modal = new bootstrap.Modal(document.getElementById("modalAgregarActividad"));
@@ -212,8 +213,8 @@ async function actualizarActividad(event) {
     }
 }
 
-async function eliminarActividad(id, padron) {
-    if (!confirm(`Estás seguro de eliminar esta actividad con ID ${id}?`)) return;
+async function eliminarActividad(id, nombreActividad, padron) {
+    if (!confirm(`Estás seguro de eliminar la actividad "${nombreActividad}"?`)) return;
 
     try {
         const response = await fetch(`${BASE_URL}/alumnos/${padron}/actividades/${id}`, {
@@ -227,6 +228,7 @@ async function eliminarActividad(id, padron) {
         mostrarError(error.message);
     }
 }
+
 
 document.addEventListener("DOMContentLoaded", () => {
     cargarAlumnos();
