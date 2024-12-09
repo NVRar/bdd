@@ -119,8 +119,8 @@ def listar_actividades(padron):
     if not alumno:
         return jsonify({"error": f"El padrón {padron} no existe"}), 404
 
-    mongo_db = mongo_client["alumnos_no_sql"]
-    actividades = mongo_db["actividades"]
+    mongo_db = mongo_client.alumnos_no_sql
+    actividades = mongo_db.actividades
 
     # Convertir ObjectId a string
     resultado = [
