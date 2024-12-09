@@ -122,7 +122,6 @@ def listar_actividades(padron):
     mongo_db = mongo_client.alumnos_no_sql
     actividades = mongo_db.actividades
 
-    # Convertir ObjectId a string
     resultado = [
         {
             "_id": str(actividad["_id"]),
